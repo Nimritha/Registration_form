@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="container flex justify-center items-center min-h-screen">
+      <div
+        class="shadow shadow-lg rounded rounded-md flex gap-7 transform transition-transform duration-300 ease-in-out hover:scale-105"
+      >
+        <div class="p-5 bg-blue-600">
+          <img src="./jobtitle.png" alt="" />
+          <img src="./deveshbg.png" alt="" />
+          <h1 class="text-center font-bold font-serif text-white mt-3">
+            Top Companies are looking for talents like you
+          </h1>
+          <p class="text-sm mt-5 text-gray-50">
+            Get hired by top companies looking for talents by applying through
+            our jobmind
+          </p>
+        </div>
+        <div class="form-body mt-5">
+          <h1 class="flex justify-center items-center text-lg font-semibold">
+            <span><img src="./jobtitle1.png" alt="" class="h-10" /></span>Job
+            Application Form
+          </h1>
+          <form id="jobApplicationForm" class="p-5 flex flex-col space-y-10">
+            <div class="flex flex-col w-80 justify-between">
+              <input
+                placeholder="Name"
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              />
+              <span id="fullNameError" class="text-red-500"></span>
+            </div>
+            <div class="form-group flex flex-col w-80 justify-between">
+              <input
+                placeholder="Email"
+                type="text"
+                id="email"
+                name="email"
+                class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              />
+              <span id="emailError" class="text-red-500"></span>
+            </div>
+
+            <div class="form-group flex flex-col w-80 justify-between">
+              <input
+                placeholder="Phone"
+                type="tel"
+                id="phone"
+                name="phone"
+                class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              />
+              <span id="phoneError" class="text-red-500"></span>
+            </div>
+            <div class="flex flex-col w-80 justify-between">
+              <textarea
+                placeholder="Address"
+                id="address"
+                name="address"
+                class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              ></textarea>
+              <span id="addressError" class="text-red-500"></span>
+            </div>
+            <div class="flex gap-5 w-80 justify-between">
+              <label for="resume">Resume</label>
+              <input
+                type="file"
+                id="resume"
+                name="resume"
+                class="input-field"
+                accept=".pdf,.docx"
+                required
+              />
+              <span id="resumeError" class="text-red-500"></span>
+            </div>
+            <button
+              type="submit"
+              class="submit-btn border border-blue-600 bg-blue-600 p-4 text-white transform transition-transform hover:scale-105 hover:bg-white hover:text-blue-600 hover:border-blue-600"
+              id="submitBtn"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("jobApplicationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (isFormValid()) {
+            alert("Thank you for your submission!");
+            document.getElementById("jobApplicationForm").reset();
+          }
+        });
+
+      function isFormValid() {
+        const form = document.getElementById("jobApplicationForm");
+        return [...form.elements].every((field) => {
+          if (
+            field.tagName.toLowerCase() === "input" ||
+            field.tagName.toLowerCase() === "textarea"
+          ) {
+            validateField(field);
+            return field.checkValidity();
+          }
+          return true;
+        });
+      }
+
+      function validateField(field) {
+        const fieldName = field.name;
+        const value = field.value.trim();
+        const errorElement = document.getElementById(fieldName + "Error");
+
+        switch (fieldName) {
+          case "fullName":
+            if (value === "") {
+              errorElement.textContent = "Please enter your full name";
+            } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+              errorElement.textContent = "Name must only contain letters";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "email":
+            if (value === "") {
+              errorElement.textContent = "Please enter your email";
+            } else if (!isValidEmail(value)) {
+              errorElement.textContent = "Please enter a valid email address";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "phone":
+            if (value === "") {
+              errorElement.textContent = "Please enter your phone number";
+            } else if (!/^\d{3}-\d{3}-\d{4}$/.test(value)) {
+              errorElement.textContent =
+                "Please enter a valid phone number (XXX-XXX-XXXX)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "address":
+            if (value.length < 10) {
+              errorElement.textContent =
+                "Please enter a valid address (minimum 10 characters)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "resume":
+            const file = field.files[0];
+            if (!file) {
+              errorElement.textContent = "Please upload your resume";
+            } else if (!isValidFile(file)) {
+              errorElement.textContent =
+                "Please upload a PDF or DOCX file (max 5 MB)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          default:
+            break;
+        }
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function isValidFile(file) {
+        const allowedExtensions = ["pdf", "docx"];
+        const maxFileSize = 5 * 1024 * 1024; // 5 MB
+        const extension = file.name.split(".").pop().toLowerCase();
+        return (
+          allowedExtensions.includes(extension) && file.size <= maxFileSize
+        );
+      }
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="container flex justify-center items-center min-h-screen">
+      <div class="shadow shadow-lg rounded flex gap-7">
+        <div class="p-5 bg-blue-600">
+          <img src="./jobtitle.png" alt="" />
+          <img src="./deveshbg.png" alt="" />
+          <h1 class="text-center font-bold font-serif text-white mt-3">
+            Top Companies are looking for talents like you
+          </h1>
+          <p class="text-sm mt-5 text-gray-50">
+            Get hired by top companies looking for talents by applying through
+            our jobmind
+          </p>
+        </div>
+        <div class="form-body mt-5">
+          <h1 class="flex justify-center items-center text-lg font-semibold">
+            <span><img src="./jobtitle1.png" alt="" class="h-10" /></span>Job
+            Application Form
+          </h1>
+          <form id="jobApplicationForm" class="p-5 flex flex-col space-y-10">
+            <div class="form-group flex flex-col">
+              <div class="form-group flex gap-5 w-80 justify-between">
+                <input
+                  placeholder="Name"
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group flex flex-col">
+              <div class="form-group flex gap-5 w-80 justify-between">
+                <input
+                  placeholder="Email"
+                  type="text"
+                  id="email"
+                  name="email"
+                  class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
+                />
+              </div>
+
+              <span id="emailError" class="text-red-500"></span>
+            </div>
+
+            <div class="form-group flex flex-col">
+              <div class="form-group flex gap-5 w-80 justify-between">
+                <input
+                  placeholder="Phone"
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
+                />
+              </div>
+
+              <span id="phoneError" class="text-red-500"></span>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex gap-5 w-80 justify-between">
+                <textarea
+                  placeholder="Address"
+                  id="address"
+                  name="address"
+                  class="input-field placeholder-black flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
+                ></textarea>
+              </div>
+
+              <span id="addressError" class="text-red-500"></span>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex gap-5 w-80 justify-between">
+                <label for="resume">Resume</label>
+                <input
+                  type="file"
+                  id="resume"
+                  name="resume"
+                  class="input-field"
+                  accept=".pdf,.docx"
+                  required
+                />
+              </div>
+
+              <span id="resumeError" class="text-red-500"></span>
+            </div>
+            <button
+              type="submit"
+              class="submit-btn border border-blue-600 bg-blue-600 p-4 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600"
+              id="submitBtn"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("jobApplicationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (isFormValid()) {
+            alert("Thank you for your submission!");
+            document.getElementById("jobApplicationForm").reset();
+          }
+        });
+
+      function isFormValid() {
+        const form = document.getElementById("jobApplicationForm");
+        return [...form.elements].every((field) => {
+          if (
+            field.tagName.toLowerCase() === "input" ||
+            field.tagName.toLowerCase() === "textarea"
+          ) {
+            validateField(field);
+            return field.checkValidity();
+          }
+          return true;
+        });
+      }
+
+      function validateField(field) {
+        const fieldName = field.name;
+        const value = field.value.trim();
+        const errorElement = document.getElementById(fieldName + "Error");
+
+        switch (fieldName) {
+          case "fullName":
+            if (value === "") {
+              errorElement.textContent = "Please enter your full name";
+            } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+              errorElement.textContent = "Name must only contain letters";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "email":
+            if (value === "") {
+              errorElement.textContent = "Please enter your email";
+            } else if (!isValidEmail(value)) {
+              errorElement.textContent = "Please enter a valid email address";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "phone":
+            if (value === "") {
+              errorElement.textContent = "Please enter your phone number";
+            } else if (!/^\d{3}-\d{7}$/.test(value)) {
+              errorElement.textContent =
+                "Please enter a valid phone number (XXX-XXXXXXX)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "address":
+            if (value.length < 10) {
+              errorElement.textContent =
+                "Please enter a valid address (minimum 10 characters)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          case "resume":
+            const file = field.files[0];
+            if (!file) {
+              errorElement.textContent = "Please upload your resume";
+            } else if (!isValidFile(file)) {
+              errorElement.textContent =
+                "Please upload a PDF or DOCX file (max 5 MB)";
+            } else {
+              errorElement.textContent = "";
+            }
+            break;
+          default:
+            break;
+        }
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function isValidFile(file) {
+        const allowedExtensions = ["pdf", "docx"];
+        const maxFileSize = 5 * 1024 * 1024; // 5 MB
+        const extension = file.name.split(".").pop().toLowerCase();
+        return (
+          allowedExtensions.includes(extension) && file.size <= maxFileSize
+        );
+      }
+    </script>
+  </body>
+</html> -->
